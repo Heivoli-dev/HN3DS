@@ -1,0 +1,15 @@
+
+/* This file overrides the desktop prototype sizing at every viewport width. */
+html,body{max-width:100%;overflow-x:clip}
+main{grid-template-columns:minmax(0,1fr) minmax(0,500px);gap:32px}
+main>section:last-child{min-width:0;width:100%}
+.device-viewport{position:relative;width:100%;max-width:500px;aspect-ratio:1;flex-shrink:0}
+.device-viewport .device{position:absolute;left:0;top:0;margin:0;transform:scale(var(--device-scale,1));transform-origin:top left}
+.status{padding:0 12px;text-align:center;line-height:1.6}
+@media(max-width:960px){main{grid-template-columns:minmax(0,1fr);max-width:600px;margin:24px auto;padding:0 16px}.intro h1{font-size:clamp(32px,8vw,48px)}.intro{padding:0}.features{display:none}}
+.embedded,.embedded body{background:transparent}
+.embedded header.page,.embedded footer.page,.embedded .intro{display:none}
+.embedded main{display:block;width:100%;max-width:none;margin:0;padding:0}
+.embedded main>section:last-child{width:100%}
+.embedded .status{font-size:11px;margin:0;min-height:32px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}

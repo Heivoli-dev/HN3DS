@@ -1,31 +1,26 @@
-# Heivoli Network — version 3DS
+# HN 3D — aperçu interactif
 
-Version statique légère du site, sans JavaScript. Adresse prévue : http://3ds.heivoli-network.fr.
+Aperçu de l’application Heivoli Network 3D publié sur https://3ds.heivoli-network.fr/.
+Il remplace l’ancien site léger destiné au navigateur de la console.
+Le site principal https://heivoli-network.fr/ reste indépendant.
+
+## Utilisation
+
+Naviguer en cliquant sur l’écran inférieur : catalogue, recherche, filtres, fiches,
+favoris et notes locales. Le téléchargement présenté est une simulation.
+Le mode `/?embed=1` affiche uniquement la console pour une intégration par iframe.
+L’aperçu utilise JavaScript moderne et vise les navigateurs actuels ;
+la compatibilité avec le navigateur de la Nintendo 3DS n’est pas garantie.
 
 ## Publication
 
-Publier ce dépôt public sur GitHub sous le nom HN3DS. Dans Settings → Pages,
-sélectionner GitHub Actions. Le domaine personnalisé
-est 3ds.heivoli-network.fr. Ne pas modifier le domaine du dépôt HNfr.
+Chaque envoi sur `main` publie le site via `.github/workflows/pages.yml`.
+L’ancienne actualisation planifiée des annonces a été retirée.
+Conserver `CNAME` et le réglage GitHub Pages utilisant GitHub Actions.
+Aucune modification DNS n’est nécessaire.
 
-Dans IONOS, remplacer les enregistrements A/AAAA du sous-domaine 3ds par un
-CNAME : nom 3ds, destination Heivoli-dev.github.io. Configurer d'abord Pages
-sur GitHub avant de modifier le DNS.
+## Développement
 
-GitHub Actions récupère les six dernières annonces publiques de Firestore toutes
-les cinq minutes, puis publie le HTML actualisé. Aucun script Firebase n'est chargé
-sur la console et aucune clé privée n'est nécessaire. Les modifications et
-suppression d'annonces sont aussi répercutées. Le planning peut être retardé par
-GitHub : ce n'est pas une synchronisation instantanée.
-
-En cas d'erreur réseau ou de réponse invalide, la publication s'arrête et le site
-déjà en ligne reste disponible. Une mise à jour peut aussi être lancée depuis
-Actions → Actualiser les annonces et publier → Run workflow. Les mises à jour
-générées ne modifient pas le dépôt : elles sont incluses dans le site déployé.
-
-GitHub désactive les tâches planifiées des dépôts publics sans activité pendant
-60 jours. Si nécessaire, réactiver le workflow depuis Actions.
-
-L'affichage a été vérifié sur navigateur moderne. Tester sur une vraie 3DS :
-la compatibilité HTTPS dépend aussi du navigateur et des certificats.
-Les comptes et commentaires restent accessibles sur le site complet.
+Lancer `python3 -m http.server 8080` puis ouvrir http://localhost:8080/.
+Fichiers statiques sans compilation ni dépendance npm.
+Le catalogue et les visuels proviennent de l’aperçu du projet HN 3D.
