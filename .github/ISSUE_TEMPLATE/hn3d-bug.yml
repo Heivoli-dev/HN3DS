@@ -1,0 +1,38 @@
+name: Bug dans l’application CIA HN3D
+description: Signaler un problème dans la bêta native Heivoli Network 3D
+title: "[HN3D bêta] "
+body:
+  - type: markdown
+    attributes:
+      value: "Ne joignez pas firebase-session.json, de jetons ni un dossier SD complet. Relisez les journaux avant de les publier."
+  - type: input
+    id: version
+    attributes:
+      label: Version HN3D
+      placeholder: 0.3.1 bêta
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Modèle de console et version Luma
+      placeholder: New 2DS XL, Luma…
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Jeu, édition, région et langue choisies
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire et résultat attendu
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Message exact, code ou photo
+      description: "Pour un crash Luma : processus, type d’exception, PC et LR."
+    validations:
+      required: true
