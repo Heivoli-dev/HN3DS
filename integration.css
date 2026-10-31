@@ -13,3 +13,9 @@ main>section:last-child{min-width:0;width:100%}
 .embedded main>section:last-child{width:100%}
 .embedded .status{font-size:11px;margin:0;min-height:32px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Installation de la bêta publique HN3D. */
+.release-banner{display:block;width:100%;max-width:480px;height:auto;aspect-ratio:16/9;object-fit:contain;border-radius:16px;margin:0 0 22px;background:#f3f6fb}
+.beta-install{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:18px;align-items:center;padding:20px;border:1px solid #dfd3bc;border-radius:16px;background:#fffdf8;margin:24px 0 12px;box-shadow:0 8px 25px #6d501008}
+.beta-label{font-size:10px;letter-spacing:1.5px;font-weight:700;color:#99500c}.beta-install h2{font-size:24px;letter-spacing:-.6px;margin:8px 0;color:#32362f}.intro .beta-install p{font-size:13px;line-height:1.6;margin:8px 0 14px;color:#65695f}.beta-download{display:inline-flex;align-items:center;gap:16px;padding:11px 15px;border-radius:8px;background:#9d4500;color:#fff;font-size:13px;font-weight:700;text-decoration:none}.beta-download:hover{background:#7b3500}.beta-notes{display:block;color:#79552b;font-size:11px;line-height:1.5;margin-top:12px;text-underline-offset:3px}.beta-qr{margin:0;text-align:center}.beta-qr a{display:block;border-radius:8px;background:white;padding:5px}.beta-qr img{display:block;width:100%;height:auto;image-rendering:pixelated}.beta-qr figcaption{font-size:10px;line-height:1.5;color:#65695f;margin-top:7px}.beta-install a:focus-visible{outline:3px solid #c67315;outline-offset:4px}
+@media(max-width:460px){.beta-install{grid-template-columns:minmax(0,1fr) 112px;padding:14px;gap:12px}.beta-install h2{font-size:21px}.beta-download{padding:10px 12px;font-size:12px}.beta-label{font-size:9px}.release-banner{margin-bottom:18px}}
