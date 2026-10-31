@@ -20,15 +20,15 @@ function options(key,all){const values=key==='genre'?[...new Set(games.flatMap(g
 function rows(){const list=filtered(),shown=list.slice(page*2,page*2+2);return shown.length?shown.map(g=>`<button class="row" data-game="${g.id}">${art(g)}<span><strong>${esc(g.title)}</strong><small>${esc(g.genre)} · ${esc(g.region)}</small></span></button>`).join(''):'<p class="notice">Aucun jeu ne correspond à ces filtres.</p>'}
 function render(){
  let g=state==='home'?featured[hero]:state==='catalog'?(filtered()[page*2]||current):chosen();
- $('#top').innerHTML=head()+(state==='download'?`<div class="download-top" style="--c:${esc(g.color)};--pct:${pct}%"><small>APERÇU DE L’ANIMATION</small>${Array.from({length:14},(_,i)=>`<i class="particle" style="--x:${Math.round(Math.sin(i*3.1)*65)}px;--delay:${-i*.17}s"></i>`).join('')}<div class="parcel">${g.icon_path?`<img src="assets/${esc(g.icon_path)}" alt="Icône du jeu">`:esc(g.initials)}</div><div class="download-title">${esc(g.title)}</div><div class="progress"><div></div></div><div class="percent">${Math.floor(pct)} % · simulation</div></div>`:`<div class="hero" style="--c:${esc(g.color)}">${g.banner_path?`<img class="official-banner" src="assets/${esc(g.banner_path)}" alt="Bannière ${esc(g.title)}">`:`<div class="monogram">${esc(g.initials||'HN')}</div><h2>${esc(g.title)}</h2><p>Illustration indisponible</p>`}</div><div class="top-caption"><b>${esc(g.title)}</b><p>${state==='home'?'Sélection du '+date()+' UTC · '+games.length+' fiches':esc(g.genre)+' · '+esc(g.region)+(prefs.ratings[current.id]?' · Votre note locale : '+prefs.ratings[current.id]+'/5':'')}</p></div>`);
+ $('#top').innerHTML=head()+(state==='download'?'<canvas id="nds-transfer" width="400" height="211" aria-label="Animation de téléchargement reprise du shop NDS"></canvas>' :`<div class="hero" style="--c:${esc(g.color)}">${g.banner_path?`<img class="official-banner" src="assets/${esc(g.banner_path)}" alt="Bannière ${esc(g.title)}">`:`<div class="monogram">${esc(g.initials||'HN')}</div><h2>${esc(g.title)}</h2><p>Illustration indisponible</p>`}</div><div class="top-caption"><b>${esc(g.title)}</b><p>${state==='home'?'Sélection du '+date()+' UTC · '+games.length+' fiches':esc(g.genre)+' · '+esc(g.region)+(prefs.ratings[current.id]?' · Votre note locale : '+prefs.ratings[current.id]+'/5':'')}</p></div>`);
  let body='';
  if(state==='home')body=`<button class="search" data-action="search">Rechercher un jeu (Y)</button><div class="section-label">À la une aujourd’hui</div><div class="tiles"><button class="tile" data-game="${g.id}">${art(g)}<span class="name">${esc(g.title)}</span></button></div><div class="daily-controls"><button data-action="daily-prev" aria-label="Sélection précédente">←</button><b>${hero+1}/3</b><button data-action="daily-next" aria-label="Sélection suivante">→</button></div>`;
  if(state==='catalog')body=`<input class="search" id="search" aria-label="Rechercher un jeu" placeholder="Rechercher un jeu…" value="${esc(query)}"><div class="filters"><select id="genre" aria-label="Genre">${options('genre','Tous les genres')}</select><select id="franchise" aria-label="Franchise">${options('franchise','Toutes les franchises')}</select></div><div class="list" id="list">${rows()}</div><div class="pager"><button data-action="prev" aria-label="Page précédente">‹</button><span>${filtered().length} résultats · page ${page+1}/${Math.max(1,Math.ceil(filtered().length/2))}</span><button data-action="next" aria-label="Page suivante">›</button></div>`;
  if(state==='detail'){const v=chosen();body=`<div class="detail"><button class="edition" data-action="edition">Édition : ${esc(v.region)} · ${editionIndex+1}/${Math.max(1,current.variants?.length||1)}</button><p class="languages">Langues : ${esc(v.languages||'Voir infos')}</p><button class="info-button" data-action="info">Infos du jeu (R)</button><button class="fav" data-action="favorite">${prefs.favorites.includes(current.id)?'Favori ✓':'+ Favori'}</button><div class="rating">${[1,2,3,4,5].map(n=>`<button data-rate="${n}" aria-label="Noter ${n} sur 5" class="${n<=(prefs.ratings[current.id]||0)?'on':''}">★</button>`).join('')}</div><button class="action preview-download" data-action="download">Aperçu du téléchargement</button></div>`}
  if(state==='info'){const v=chosen();body=`<div class="info-copy"><b>${esc(v.title)}</b><p>${esc(v.publisher)}<br>${esc(v.genre)} · ${esc(v.region)}<br>Langues : ${esc(v.languages||'Non renseignées')}</p><p>${esc(v.description||'Description indisponible.')}</p></div><div class="info-actions"><button data-action="back">Retour</button><a target="_blank" rel="noopener" href="${esc(v.source_url)}">Fiche hShop ↗</a></div>`}
- if(state==='settings')body=`<div class="settings"><strong>Options · 0.2.8</strong><p>${games.length} jeux<br>Notes locales dans cet aperçu.</p><button class="action" data-action="download">Aperçu de l’animation</button><p>Installation réelle depuis le CIA.</p></div>`;
- if(state==='download')body=`<div class="download"><h3>${pct>=100?'Aperçu terminé':'Un jeu prend forme…'}</h3><p>Cette animation est une simulation.<br>Aucun fichier n’est téléchargé.</p><button class="action secondary" data-action="back">Retour à la fiche</button></div>`;
- $('#bottom').innerHTML=head()+`<div class="content">${body}</div>`+tabs();bind();
+ if(state==='settings')body=`<div class="settings"><strong>Options · 0.2.11</strong><p>${games.length} jeux<br>Notes locales dans cet aperçu.</p><button class="action" data-action="download">Aperçu de l’animation</button><p>Installation réelle depuis le CIA.</p></div>`;
+ if(state==='download')body=`<div class="download"><h3>${pct>=100?'Aperçu terminé':'Un jeu prend forme…'}</h3><p>Animation du shop NDS.<br>Téléchargement simulé.</p><p class="simulated-amount">0 % · simulation</p><button class="action secondary" data-action="back">Retour à la fiche</button></div>`;
+ $('#bottom').innerHTML=head()+`<div class="content">${body}</div>`+tabs();bind();if(state==='download')animateNdsPreview(g);
 }
 function navigate(to){clearInterval(timer);timer=null;if(to==='favorites'){state='catalog';favoritesOnly=true}else{state=to;favoritesOnly=false}page=0;render()}
 function openGame(id){clearInterval(timer);current=games.find(g=>g.id===id)||games[0];state='detail';editionIndex=0;render()}
@@ -45,11 +45,49 @@ function bind(){
  if(action==='favorite'){const at=prefs.favorites.indexOf(current.id);if(at<0)prefs.favorites.push(current.id);else prefs.favorites.splice(at,1);save();render()}
  if(action==='prev'){page=Math.max(0,page-1);render()}
  if(action==='next'){page=Math.min(Math.max(0,Math.ceil(filtered().length/2)-1),page+1);render()}
- if(action==='download'){if(state==='settings'){current=featured[0];editionIndex=0}state='download';pct=0;render();clearInterval(timer);const start=performance.now();timer=setInterval(()=>{pct=Math.min(100,(performance.now()-start)/150);const p=$('.download-top');if(p){p.style.setProperty('--pct',pct+'%');$('.percent').textContent=Math.floor(pct)+' % · simulation'}if(pct>=100){clearInterval(timer);timer=null;$('.download h3').textContent='Aperçu terminé'}},100)}
+ if(action==='download'){if(state==='settings'){current=featured[0];editionIndex=0}state='download';pct=0;render();clearInterval(timer);const start=performance.now();timer=setInterval(()=>{pct=Math.min(100,(performance.now()-start)/150);const amount=$('.simulated-amount');if(amount)amount.textContent=Math.floor(pct)+' % · simulation';const p=$('.download-top');if(p){p.style.setProperty('--pct',pct+'%');$('.percent').textContent=Math.floor(pct)+' % · simulation'}if(pct>=100){clearInterval(timer);timer=null;$('.download h3').textContent='Aperçu terminé'}},100)}
  if(action==='back'){clearInterval(timer);state='detail';render()}
  });
  const input=$('#search');if(input)input.oninput=()=>{const caret=input.selectionStart;query=input.value;page=0;render();const next=$('#search');next.focus();next.setSelectionRange(caret,caret)};
  for(const key of ['genre','franchise']){const e=$('#'+key);if(e)e.onchange=()=>{if(key==='genre')genre=e.value;else franchise=e.value;page=0;render()}}
+}
+// Same rail, stagger and fall constants as the NDS bubble_motion.hpp.
+function animateNdsPreview(game){
+ const canvas=$('#nds-transfer');if(!canvas)return;const c=canvas.getContext('2d'),start=performance.now();
+ const image=new Image();if(game.icon_path)image.src='assets/'+game.icon_path;
+ const rect=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(x,y,w,h)};
+ const circle=(x,y,r,color)=>{c.fillStyle=color;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill()};
+ const round=(x,y,w,h,r,color)=>{c.fillStyle=color;c.beginPath();c.roundRect(x,y,w,h,r);c.fill()};
+ const bag=(x,y,fill)=>{
+  circle(x+40,y+9,23,'#ed7d1b');circle(x+40,y+9,17,'#f9f8f4');rect(x+11,y+9,58,15,'#f9f8f4');
+  round(x,y+12,80,88,7,'#e5e0d7');round(x-2,y+9,80,88,7,'#ed7d1b');round(x+4,y+15,68,76,4,'#ffa42e');
+  const level=Math.max(0,Math.min(1,fill))*68;rect(x+8,y+87-level,60,level,'#ed7d1b');
+  for(let row=0;row<4;row++)for(let col=0;col<4;col++){let cy=y+77-row*16;if(cy>y+87-level)rect(x+11+col*14,cy,11,11,'#ffffff50')}
+  circle(x+25,y+47,4,'white');circle(x+51,y+47,4,'white');round(x+28,y+63,21,5,2,'white');
+ };
+ function frame(){
+  if(state!=='download'||canvas!==$('#nds-transfer'))return;
+  const t=(performance.now()-start)/1000,ratio=pct/100;
+  c.setTransform(1,0,0,1,0,-29);rect(0,29,400,211,'#f9f8f4');
+  c.fillStyle='#20251e';c.font='16px Arial';c.fillText(game.title,12,52,376);
+  if(pct>=100){bag(160,104,1);c.fillStyle='#20251e';c.font='18px Arial';c.fillText('Fichier prêt !',125,86)}
+  else {
+   rect(0,77,400,2,'#adaa9d');
+   for(let i=0;i<7;i++){
+    const travel=211/58,fall=1.05,period=7*.82;let age=t-i*.82;if(age<0)continue;age%=period;
+    let x=-18,y=90,attached=true;
+    if(age<travel)x=-18+58*age;else if(age<travel+fall){x=193;y=90+64*((age-travel)/fall)**2;attached=false}
+    if(x<0)continue;if(attached){rect(x-1,78,2,6,'#a19e91');circle(x,78,2,'#e5e0d7')}
+    circle(x,y,7,'#ed7d1b');circle(x-2,y-2,2.2,'white');
+   }
+   bag(224+4*Math.sin(t*2),125,0);round(145,134,104,98,5,'#e5e0d7');round(141,130,104,98,4,'white');
+   if(image.complete&&image.naturalWidth)c.drawImage(image,151,140,84,84);
+   else rect(151,140,84,84,game.color||'#9d4500');
+   rect(147,224-84*ratio,92,84*ratio,'#ff8910d2');rect(147,224-84*ratio,92,2,'#ed7d1b');
+  }
+  requestAnimationFrame(frame);
+ }
+ requestAnimationFrame(frame);
 }
 window.addEventListener('keydown',e=>{if(e.target.matches('input,select'))return;if(e.key==='Escape')navigate('home');if(e.key.toLowerCase()==='y'){navigate('catalog');$('#search').focus()}});
 setInterval(()=>{if(date()!==drawDate){drawDate=date();featured=daily();if(state==='home')render()}},30000);render();
